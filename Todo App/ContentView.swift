@@ -9,14 +9,30 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            VStack{
+                List{
+                    ForEach(0...3, id: \.self) { todo in
+                        Text("hellp")
+                    }
+                }
+            }.navigationTitle("Todo")
+                .toolbar{
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(action: {
+                            //
+                        }, label: {
+                            Text("Add Todo")
+                        })
+                    }
+                }
         }
-        .padding()
     }
+}
+
+struct Todo: Identifiable {
+    var id = UUID()
+    var task : String
 }
 
 #Preview {
