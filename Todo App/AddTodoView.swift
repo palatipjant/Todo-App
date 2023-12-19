@@ -10,6 +10,8 @@ import SwiftUI
 struct AddTodoView: View {
     
     @State private var task = ""
+    @ObservedObject var todoList : TodoList
+    @State private var showingAlert = false
     
     var body: some View {
         NavigationStack{
@@ -25,7 +27,12 @@ struct AddTodoView: View {
                     }
                     .padding(.top)
                 Button(action: {
-                    //
+                    if task == "" {
+                        showingAlert = true
+                    } else{
+                        todoList.AddTodo(task: task)
+                        todoList.showAddTodoView.toggle()
+                    }
                 }, label: {
                     Text("Add Todo")
                         .font(.title2)
@@ -34,7 +41,8 @@ struct AddTodoView: View {
                         .background(.blue)
                         .foregroundStyle(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 25))
-                        
+                        .alert("Note can't be empty.", isPresented: $showingAlert) {
+                            Button("OK") { }}
                 }).padding()
                 Spacer()
             }.navigationTitle("Add a note 📝")
@@ -44,5 +52,5 @@ struct AddTodoView: View {
 }
 
 #Preview {
-    AddTodoView()
+    AddTodoView(todoList: TodoList())
 }
